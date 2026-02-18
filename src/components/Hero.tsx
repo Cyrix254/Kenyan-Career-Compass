@@ -6,16 +6,16 @@ import admin2 from "@/assets/admin2.jpg";
 
 const admins = [
   {
-    name: "Brian Ochieng",
-    role: "Lead Academic Advisor",
+    name: "Cyrix Ray",
+    role: "Admin",
     image: admin1,
-    whatsapp: "https://wa.me/254700000000",
+    whatsapp: "https://wa.me/254114998416",
   },
   {
-    name: "Faith Wanjiku",
-    role: "Student Counselor",
+    name: "Dennis Mwachi",
+    role: "Admin",
     image: admin2,
-    whatsapp: "https://wa.me/254711000000",
+    whatsapp: "https://wa.me/254790954203",
   },
 ];
 
@@ -99,7 +99,7 @@ const Hero = () => {
           className="text-center"
         >
           <a
-            href="https://chat.whatsapp.com/your-group-link"
+            href="https://chat.whatsapp.com/CCkCYrmoMeT0yTrQxjm9gt"
             target="_blank"
             rel="noopener noreferrer"
             className="gold-gradient inline-flex items-center gap-3 rounded-full px-8 py-4 text-lg font-bold text-accent-foreground shadow-lg transition-transform hover:scale-105"

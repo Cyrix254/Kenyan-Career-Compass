@@ -92,7 +92,7 @@ const DigitalSkills = () => {
           className="mt-12 text-center"
         >
           <a
-            href="https://wa.me/254700000000?text=Hi!%20I%27d%20like%20to%20enquire%20about%20digital%20skills%20classes."
+            href="https://wa.me/254114998416?text=Hi!%20I%27d%20like%20to%20enquire%20about%20digital%20skills%20classes."
             target="_blank"
             rel="noopener noreferrer"
             className="gold-gradient inline-flex items-center gap-2 rounded-full px-8 py-3 font-bold text-accent-foreground shadow-lg transition-transform hover:scale-105"

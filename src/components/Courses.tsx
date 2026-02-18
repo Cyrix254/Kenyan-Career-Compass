@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { coursesData, clusterTypes, type ClusterType, type Course } from "@/data/coursesData";
 import { getMarketTrend, type MarketTrendType } from "@/data/marketTrends";
+import ConsultationModal from "./ConsultationModal";
 
 const clusterIcons: Record<ClusterType, typeof GraduationCap> = {
   Degree: GraduationCap,
@@ -29,7 +30,7 @@ const trendConfig = {
   declining: { icon: TrendingDown, label: "Declining", color: "text-destructive bg-red-100" },
 };
 
-const CourseCard = memo(({ course }: { course: Course }) => {
+const CourseCard = memo(({ course, onConsult }: { course: Course; onConsult: (course: Course) => void }) => {
   const [expanded, setExpanded] = useState(false);
   const Icon = clusterIcons[course.cluster];
   const trend = getMarketTrend(course.name);
@@ -73,15 +74,13 @@ const CourseCard = memo(({ course }: { course: Course }) => {
         )}
 
         <div className="flex items-center gap-2">
-          <a
-            href="https://wa.me/254700000000"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => onConsult(course)}
             className="inline-flex items-center gap-1.5 rounded-lg bg-green-600 px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-green-700"
           >
             <MessageCircle size={13} />
             Seek Guidance
-          </a>
+          </button>
           {trend && (
             <button
               onClick={() => setExpanded(!expanded)}
@@ -162,6 +161,7 @@ const Courses = () => {
   const [search, setSearch] = useState("");
   const [activeCluster, setActiveCluster] = useState<ClusterType | "All">("All");
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   const filtered = useMemo(() => {
     let result = coursesData;
@@ -234,11 +234,10 @@ const Courses = () => {
               <button
                 key={c}
                 onClick={() => handleCluster(c)}
-                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${
-                  activeCluster === c
-                    ? "gold-gradient text-accent-foreground shadow"
-                    : "bg-card text-muted-foreground border border-border hover:bg-secondary"
-                }`}
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all ${activeCluster === c
+                  ? "gold-gradient text-accent-foreground shadow"
+                  : "bg-card text-muted-foreground border border-border hover:bg-secondary"
+                  }`}
               >
                 {c} {c !== "All" && `(${coursesData.filter((x) => x.cluster === c).length})`}
               </button>
@@ -249,7 +248,7 @@ const Courses = () => {
         {/* Course Grid */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {visibleCourses.map((course) => (
-            <CourseCard key={course.id} course={course} />
+            <CourseCard key={course.id} course={course} onConsult={setSelectedCourse} />
           ))}
         </div>
 
@@ -270,6 +269,12 @@ const Courses = () => {
           </div>
         )}
       </div>
+
+      <ConsultationModal
+        isOpen={!!selectedCourse}
+        onClose={() => setSelectedCourse(null)}
+        courseName={selectedCourse?.name || ""}
+      />
     </section>
   );
 };

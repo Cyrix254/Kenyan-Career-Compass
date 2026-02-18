@@ -4,7 +4,6 @@ import About from "@/components/About";
 import Courses from "@/components/Courses";
 import DigitalSkills from "@/components/DigitalSkills";
 import Carousel from "@/components/Carousel";
-import Contact from "@/components/Contact";
 
 const Index = () => {
   return (
@@ -15,7 +14,6 @@ const Index = () => {
       <Carousel />
       <Courses />
       <DigitalSkills />
-      <Contact />
     </div>
   );
 };
