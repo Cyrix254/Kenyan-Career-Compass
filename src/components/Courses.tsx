@@ -1,7 +1,12 @@
 import { useState, useMemo, useCallback, memo } from "react";
-import { motion } from "framer-motion";
-import { Search, MessageCircle, GraduationCap, BookOpen, Award, Wrench } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search, MessageCircle, GraduationCap, BookOpen, Award, Wrench,
+  ChevronDown, TrendingUp, TrendingDown, Minus, Zap,
+  Calendar, Briefcase, BookOpenCheck, DollarSign
+} from "lucide-react";
 import { coursesData, clusterTypes, type ClusterType, type Course } from "@/data/coursesData";
+import { getMarketTrend, type MarketTrendType } from "@/data/marketTrends";
 
 const clusterIcons: Record<ClusterType, typeof GraduationCap> = {
   Degree: GraduationCap,
@@ -17,38 +22,134 @@ const clusterColors: Record<ClusterType, string> = {
   Artisan: "bg-navy-light text-primary-foreground",
 };
 
+const trendConfig = {
+  booming: { icon: Zap, label: "Booming", color: "text-green-600 bg-green-100" },
+  rising: { icon: TrendingUp, label: "Rising", color: "text-sky bg-blue-100" },
+  stable: { icon: Minus, label: "Stable", color: "text-accent bg-amber-100" },
+  declining: { icon: TrendingDown, label: "Declining", color: "text-destructive bg-red-100" },
+};
+
 const CourseCard = memo(({ course }: { course: Course }) => {
+  const [expanded, setExpanded] = useState(false);
   const Icon = clusterIcons[course.cluster];
+  const trend = getMarketTrend(course.name);
+  const trendInfo = trend ? trendConfig[trend.direction] : null;
+
   return (
-    <div className="group rounded-xl border border-border bg-card p-5 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5">
-      <div className="mb-3 flex items-start justify-between gap-2">
-        <h4 className="font-display text-base font-bold text-foreground leading-tight">
-          {course.name}
-        </h4>
-        <span
-          className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${clusterColors[course.cluster]}`}
-        >
-          {course.cluster}
-        </span>
-      </div>
-      <div className="mb-3 space-y-1.5 text-sm text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <Icon size={14} className="text-accent" />
-          <span>
-            Min. Grade: <strong className="text-foreground">{course.overallGrade}</strong>
+    <div className="group rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:shadow-md">
+      <div className="p-5">
+        <div className="mb-3 flex items-start justify-between gap-2">
+          <h4 className="font-display text-base font-bold text-foreground leading-tight">
+            {course.name}
+          </h4>
+          <span
+            className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-semibold ${clusterColors[course.cluster]}`}
+          >
+            {course.cluster}
           </span>
         </div>
-        <p className="text-xs leading-relaxed">{course.subjectRequirements}</p>
+        <div className="mb-3 space-y-1.5 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2">
+            <Icon size={14} className="text-accent" />
+            <span>
+              Min. Grade: <strong className="text-foreground">{course.overallGrade}</strong>
+            </span>
+          </div>
+          <p className="text-xs leading-relaxed">{course.subjectRequirements}</p>
+        </div>
+
+        {/* Trend badge + salary */}
+        {trend && trendInfo && (
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${trendInfo.color}`}>
+              <trendInfo.icon size={12} />
+              {trendInfo.label}
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-muted-foreground">
+              <DollarSign size={11} />
+              {trend.salaryRange}
+            </span>
+          </div>
+        )}
+
+        <div className="flex items-center gap-2">
+          <a
+            href="https://wa.me/254700000000"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-green-600 px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-green-700"
+          >
+            <MessageCircle size={13} />
+            Seek Guidance
+          </a>
+          {trend && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="inline-flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-secondary"
+            >
+              Market Trends
+              <ChevronDown
+                size={13}
+                className={`transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+              />
+            </button>
+          )}
+        </div>
       </div>
-      <a
-        href="https://wa.me/254700000000"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-1.5 rounded-lg bg-green-600 px-3 py-1.5 text-xs font-semibold text-primary-foreground transition-colors hover:bg-green-700"
-      >
-        <MessageCircle size={13} />
-        Seek Guidance
-      </a>
+
+      {/* Expandable Trends Panel */}
+      <AnimatePresence>
+        {expanded && trend && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden"
+          >
+            <div className="border-t border-border bg-muted/30 px-5 py-4 space-y-4">
+              {/* Past 5 Years */}
+              <div>
+                <div className="mb-1.5 flex items-center gap-1.5">
+                  <Calendar size={13} className="text-accent" />
+                  <h5 className="text-xs font-bold text-foreground uppercase tracking-wide">
+                    Past 5 Years (2019–2024)
+                  </h5>
+                </div>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  {trend.pastTrend}
+                </p>
+              </div>
+
+              {/* Next 5 Years */}
+              <div>
+                <div className="mb-1.5 flex items-center gap-1.5">
+                  <Briefcase size={13} className="text-accent" />
+                  <h5 className="text-xs font-bold text-foreground uppercase tracking-wide">
+                    Next 5 Years (2025–2030)
+                  </h5>
+                </div>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  {trend.futureTrend}
+                </p>
+              </div>
+
+              {/* What to Expect */}
+              <div>
+                <div className="mb-1.5 flex items-center gap-1.5">
+                  <BookOpenCheck size={13} className="text-accent" />
+                  <h5 className="text-xs font-bold text-foreground uppercase tracking-wide">
+                    What to Expect During Study
+                  </h5>
+                </div>
+                <p className="text-xs leading-relaxed text-muted-foreground">
+                  {trend.studyExpectation}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 });
@@ -108,7 +209,7 @@ const Courses = () => {
             Explore <span className="text-gradient-gold">Courses</span>
           </h2>
           <p className="text-muted-foreground">
-            Browse {coursesData.length}+ courses across all KUCCPS clusters
+            Browse {coursesData.length}+ courses across all KUCCPS clusters — with market trends & salary data
           </p>
           <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-accent" />
         </motion.div>
@@ -146,7 +247,7 @@ const Courses = () => {
         </div>
 
         {/* Course Grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {visibleCourses.map((course) => (
             <CourseCard key={course.id} course={course} />
           ))}
