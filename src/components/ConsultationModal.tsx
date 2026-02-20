@@ -25,7 +25,7 @@ const ConsultationModal = ({ isOpen, onClose, courseName }: ConsultationModalPro
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Seek Guidance</DialogTitle>
+                    <DialogTitle>Request Guidance</DialogTitle>
                     <DialogDescription>
                         Select an admin to contact on WhatsApp for {courseName}
                     </DialogDescription>
