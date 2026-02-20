@@ -10,14 +10,14 @@ export const admins: Admin[] = [
     {
         id: 1,
         name: "Cyrix Ray",
-        role: "Career Instructor",
+        role: "Admin",
         whatsappNumber: "254114998416",
         available: true,
     },
     {
         id: 2,
         name: "Dennis Mwachi",
-        role: "Career instructor",
+        role: "Admin",
         whatsappNumber: "254790954203",
         available: true,
     },

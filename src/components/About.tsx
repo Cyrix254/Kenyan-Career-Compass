@@ -108,6 +108,9 @@ const About = () => {
                   "Free KUCCPS course guidance",
                   "Personalized admin support via WhatsApp",
                   "150+ courses with clear requirements",
+                  "KUCCPS Course Application Services",
+                  "HELB & HEF Scholarship Application Services",
+                  "KRA PIN Application & Registration",
                   "Digital skills training for the modern world",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2">

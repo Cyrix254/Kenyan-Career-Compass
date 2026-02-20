@@ -7,13 +7,13 @@ import admin2 from "@/assets/admin2.jpg";
 const admins = [
   {
     name: "Cyrix Ray",
-    role: "Admin",
+    role: "Academic Support Coordinator",
     image: admin1,
     whatsapp: "https://wa.me/254114998416",
   },
   {
     name: "Dennis Mwachi",
-    role: "Admin",
+    role: "Academic Support Coordinator",
     image: admin2,
     whatsapp: "https://wa.me/254790954203",
   },
