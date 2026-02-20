@@ -210,6 +210,9 @@ const Courses = () => {
           </h2>
           <p className="text-muted-foreground">
             Browse {coursesData.length}+ courses across all KUCCPS clusters — with market trends & salary data
+          </p> <br></br>
+          <p>
+          <b>NB:</b>Requirements and qualifications may vary by institution and year. Always verify with official KUCCPS resources before making decisions.
           </p>
           <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-accent" />
         </motion.div>

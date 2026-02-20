@@ -53,7 +53,8 @@ const DigitalSkills = () => {
             Digital <span className="text-gradient-gold">Skills</span>
           </h2>
           <p className="text-primary-foreground/60">
-            Future-proof your career with in-demand digital skills
+          Alongside our guidance and resource hub, we offer Professional Digital Training. We realized that many students have the passion but lack the technical "edge" that employers demand.
+           By including essential digital courses in our service catalog, we ensure that every student who uses our platform leaves not just with a plan, but with a specialized skill set.
           </p>
           <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-accent" />
         </motion.div>
