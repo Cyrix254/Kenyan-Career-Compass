@@ -83,7 +83,7 @@ const Hero = () => {
                     className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-green-700"
                   >
                     <MessageCircle size={16} />
-                    Contact Admin
+                    Request Guidance
                   </a>
                 </div>
               </div>
